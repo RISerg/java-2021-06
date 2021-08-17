@@ -31,6 +31,10 @@ allprojects {
                 mavenBom("org.springframework.boot:spring-boot-dependencies:2.5.2")
             }
             dependency("com.google.guava:guava:${Versions.guava}")
+            dependency("org.openjdk.jmh:jmh-core:${Versions.jmh}")
+            dependency("org.openjdk.jmh:jmh-generator-annprocess:${Versions.jmh}")
+            dependency("org.openjdk.jol:jol-core:${Versions.jol}")
+            dependency("org.ow2.asm:asm-commons:${Versions.asm}")
         }
     }
 
@@ -57,4 +61,9 @@ task managedVersions {
             println it
         }
     }
+}
+
+//gradle -q hello
+task hello {
+    println 'Hello world!'
 }
