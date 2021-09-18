@@ -1,4 +1,4 @@
-﻿rootProject.name = 'otusJava'
+rootProject.name = 'otusJava'
 include 'L01-gradle'
 include 'hw01-gradle'
 include 'L02-gradle2'
@@ -9,7 +9,7 @@ include 'L04-generics'
 include 'hw04-generics'
 include 'L05-collections'
 include 'L06-reflection'
-
+include 'hw06-reflection'
 include 'L08-gc:demo'
 include 'L08-gc:homework'
 
