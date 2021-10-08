@@ -2,10 +2,13 @@ package ru.otus.aop.proxy;
 
 import ru.otus.aop.proxy.annotations.Log;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.Arrays;
+import java.util.*;
+import java.util.stream.Collectors;
 
 class Ioc {
 
@@ -20,16 +23,25 @@ class Ioc {
 
     static class DemoInvocationHandler implements InvocationHandler {
         private final TestLoggingInterface myClass;
+        private final Map<String, Set<Class>> implMethods;
 
         DemoInvocationHandler(TestLoggingInterface myClass) {
             this.myClass = myClass;
+
+            var methodsArray = myClass.getClass().getDeclaredMethods();
+            this.implMethods = Arrays.stream(methodsArray).collect(Collectors.toMap(
+                    this::getMethodSignature,
+                    method -> Arrays.stream(method.getDeclaredAnnotations()).map(Annotation::annotationType).collect(Collectors.toSet())));
         }
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            Method implMethod = myClass.getClass().getDeclaredMethod(method.getName(), method.getParameterTypes());
-            if (implMethod.isAnnotationPresent(Log.class))
+            var methodSignature = this.getMethodSignature(method);
+            var implMethodAnnotations = this.implMethods.get(methodSignature);
+
+            if (implMethodAnnotations.contains(Log.class))
                 System.out.println("executed method: " + method.getName() + ", params: " + Arrays.toString(args));
+
             return method.invoke(myClass, args);
         }
 
@@ -38,6 +50,10 @@ class Ioc {
             return "DemoInvocationHandler{" +
                     "myClass=" + myClass +
                     '}';
+        }
+
+        String getMethodSignature(Method method) {
+            return method.getName() + Arrays.toString(method.getParameterTypes());
         }
     }
 }
