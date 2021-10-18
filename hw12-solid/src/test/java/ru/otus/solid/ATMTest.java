@@ -1,6 +1,9 @@
 package ru.otus.solid;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -29,7 +32,7 @@ class ATMTest {
         atm = new ATM(noteTypes);
         noteTypes = Arrays.stream(noteValues).mapToObj(value -> atm.getNoteType(value)).collect(Collectors.toSet());
         var money = new HashMap<NoteType, Integer>();
-        noteTypes.stream().forEach(noteType -> money.put(noteType, noteCount));
+        noteTypes.forEach(noteType -> money.put(noteType, noteCount));
         atm.put(money);
     }
 

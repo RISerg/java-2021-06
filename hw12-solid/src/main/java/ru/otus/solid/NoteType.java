@@ -3,7 +3,7 @@ package ru.otus.solid;
 import java.util.Objects;
 
 public class NoteType implements Comparable {
-    private int value;
+    private final int value;
 
     public NoteType(int value) {
         this.value = value;
