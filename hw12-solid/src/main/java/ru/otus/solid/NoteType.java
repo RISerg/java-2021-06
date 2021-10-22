@@ -2,14 +2,14 @@ package ru.otus.solid;
 
 import java.util.Objects;
 
-public class NoteType implements Comparable {
-    private final int value;
+class NoteType implements Comparable {
+    private final Integer value;
 
-    public NoteType(int value) {
+    public NoteType(Integer value) {
         this.value = value;
     }
 
-    public int getValue() {
+    public Integer getValue() {
         return value;
     }
 

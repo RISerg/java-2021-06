@@ -13,8 +13,8 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-class ATMTest {
-    private ATM atm;
+class SimpleATMTest {
+    private SimpleATM atm;
     private static int[] noteValues;
     private static int noteCount;
     private static int expectedBalance;
@@ -22,14 +22,14 @@ class ATMTest {
 
     @BeforeAll
     static void ATMTestSetUp() {
-        noteValues = new int[]{5_000, 2_000, 1_000, 500, 200, 100};
+        noteValues = new int[]{5000, 2000, 1000, 500, 200, 100};
         noteCount = 10;
         expectedBalance = Arrays.stream(noteValues).map(value -> value * noteCount).sum();
     }
 
     @BeforeEach
     void setUp() {
-        atm = new ATM(noteTypes);
+        atm = new SimpleATM(noteTypes);
         noteTypes = Arrays.stream(noteValues).mapToObj(value -> atm.getNoteType(value)).collect(Collectors.toSet());
         var money = new HashMap<NoteType, Integer>();
         noteTypes.forEach(noteType -> money.put(noteType, noteCount));
@@ -44,19 +44,19 @@ class ATMTest {
     @Test
     void takeMoreThanHas() {
         Exception exception = Assertions.assertThrows(RuntimeException.class, () -> atm.take(expectedBalance + 1));
-        Assertions.assertEquals(ATM.NOT_ENOUGH_MONEY, exception.getMessage());
+        Assertions.assertEquals(SimpleATM.NOT_ENOUGH_MONEY, exception.getMessage());
     }
 
     @Test
     void takeIncorrectSum() {
         Exception exception = Assertions.assertThrows(RuntimeException.class, () -> atm.take(-1));
-        Assertions.assertEquals(ATM.INCORRECT_SUM, exception.getMessage());
+        Assertions.assertEquals(SimpleATM.INCORRECT_SUM, exception.getMessage());
     }
 
     @Test
     void multiplicityCheck() {
         Exception exception = Assertions.assertThrows(RuntimeException.class, () -> atm.take(1));
-        String expectedMessage = ATM.MULTIPLICITY_ERROR;
+        String expectedMessage = SimpleATM.MULTIPLICITY_ERROR;
         Assertions.assertTrue(exception.getMessage().startsWith(expectedMessage.substring(0, expectedMessage.indexOf(' '))));
     }
 
@@ -75,15 +75,15 @@ class ATMTest {
 
     @Test
     void put() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
-        Method getCellMethod = ATM.class.getDeclaredMethod("getCell", int.class);
+        Method getCellMethod = SimpleATM.class.getDeclaredMethod("getCell", NoteType.class);
         getCellMethod.setAccessible(true);
 
-        Field noteCountField = Cell.class.getDeclaredField("noteCount");
+        Field noteCountField = SimpleCell.class.getDeclaredField("noteCount");
         noteCountField.setAccessible(true);
 
         for (int value : noteValues) {
-            Cell cell = (Cell) getCellMethod.invoke(atm, value);
-            Assertions.assertEquals(noteCount, noteCountField.getInt(cell));
+            SimpleCell cell = (SimpleCell) getCellMethod.invoke(atm, atm.getNoteType(value));
+            Assertions.assertEquals(noteCount, noteCountField.get(cell));
         }
     }
 
