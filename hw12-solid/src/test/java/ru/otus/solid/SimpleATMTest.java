@@ -10,30 +10,26 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 class SimpleATMTest {
     private SimpleATM atm;
-    private static int[] noteValues;
+    private static NoteType[] noteTypes;
     private static int noteCount;
     private static int expectedBalance;
-    private static Set<NoteType> noteTypes;
 
     @BeforeAll
     static void ATMTestSetUp() {
-        noteValues = new int[]{5000, 2000, 1000, 500, 200, 100};
+        noteTypes = new NoteType[]{NoteType.P5000, NoteType.P2000, NoteType.P1000, NoteType.P500, NoteType.P200, NoteType.P100};
         noteCount = 10;
-        expectedBalance = Arrays.stream(noteValues).map(value -> value * noteCount).sum();
+        expectedBalance = Arrays.stream(noteTypes).mapToInt(NoteType::getValue).sum() * noteCount;
     }
 
     @BeforeEach
     void setUp() {
-        atm = new SimpleATM(noteTypes);
-        noteTypes = Arrays.stream(noteValues).mapToObj(value -> atm.getNoteType(value)).collect(Collectors.toSet());
+        this.atm = new SimpleATM(noteTypes);
         var money = new HashMap<NoteType, Integer>();
-        noteTypes.forEach(noteType -> money.put(noteType, noteCount));
-        atm.put(money);
+        Arrays.stream(noteTypes).forEach(noteType -> money.put(noteType, noteCount));
+        this.atm.put(money);
     }
 
     @Test
@@ -63,9 +59,9 @@ class SimpleATMTest {
     @Test
     void take() {
         var expectedNotes = new HashMap<NoteType, Integer>();
-        expectedNotes.put(atm.getNoteType(2_000), 1);
-        expectedNotes.put(atm.getNoteType(1_000), 1);
-        expectedNotes.put(atm.getNoteType(200), 1);
+        expectedNotes.put(NoteType.P2000, 1);
+        expectedNotes.put(NoteType.P1000, 1);
+        expectedNotes.put(NoteType.P200, 1);
         var expectedNotesSum = expectedNotes.keySet().stream().mapToInt(NoteType::getValue).sum();
         atm.put(expectedNotes);
         var takenNotes = atm.take(expectedNotesSum);
@@ -74,15 +70,15 @@ class SimpleATMTest {
     }
 
     @Test
-    void put() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
+    void put() throws NoSuchMethodException, IllegalAccessException, NoSuchFieldException, InvocationTargetException {
         Method getCellMethod = SimpleATM.class.getDeclaredMethod("getCell", NoteType.class);
         getCellMethod.setAccessible(true);
 
         Field noteCountField = SimpleCell.class.getDeclaredField("noteCount");
         noteCountField.setAccessible(true);
 
-        for (int value : noteValues) {
-            SimpleCell cell = (SimpleCell) getCellMethod.invoke(atm, atm.getNoteType(value));
+        for (NoteType noteType : noteTypes) {
+            SimpleCell cell = (SimpleCell) getCellMethod.invoke(atm, noteType);
             Assertions.assertEquals(noteCount, noteCountField.get(cell));
         }
     }
@@ -90,7 +86,7 @@ class SimpleATMTest {
     @Test
     void putUnsupportedNote() {
         var notes = new HashMap<NoteType, Integer>();
-        notes.put(new NoteType(10_000), 1);
+        notes.put(NoteType.P50, 1);
         var returnedNotes = atm.put(notes);
 
         Assertions.assertEquals(notes, returnedNotes);

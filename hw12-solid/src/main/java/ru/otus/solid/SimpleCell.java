@@ -3,13 +3,17 @@ package ru.otus.solid;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SimpleCell implements Cell{
+public class SimpleCell implements Cell {
     private final NoteType noteType;
     private Integer noteCount;
 
     public SimpleCell(NoteType noteType) {
         this.noteType = noteType;
         this.noteCount = 0;
+    }
+
+    public NoteType getNoteType() {
+        return this.noteType;
     }
 
     public Integer getBalance() {
