@@ -18,5 +18,6 @@ include 'L10-byteCodes'
 include 'hw10-byteCodes'
 include 'L11-Java8'
 include 'L12-solid'
+include 'hw12-solid'
 include 'L13-behavioralPatterns'
 
