@@ -14,10 +14,53 @@ include 'L08-gc:demo'
 include 'L08-gc:homework'
 include 'hw08-gc:homework'
 include 'L09-remoteDebug'
+
 include 'L10-byteCodes'
 include 'hw10-byteCodes'
 include 'L11-Java8'
+
 include 'L12-solid'
 include 'hw12-solid'
 include 'L13-behavioralPatterns'
+include 'L14-creationalPatterns'
+include 'L15-structuralPatterns:demo'
+include 'L15-structuralPatterns:homework'
 
+include 'L16-io:demo'
+include 'L16-io:homework'
+
+include 'L17-nio-logging'
+
+include 'L18-jdbc:demo'
+include 'L18-jdbc:homework'
+include 'L19-rdbms'
+
+include 'L20-hibernate'
+include 'L21-jpql:class-demo'
+include 'L21-jpql:homework-template'
+
+include 'L22-cache'
+
+include 'L23-noSQL:mongo-db-demo'
+include 'L23-noSQL:mongo-db-reactive-demo'
+include 'L23-noSQL:neo4j-demo'
+include 'L23-noSQL:redis-demo'
+include 'L23-noSQL:cassandra-demo'
+
+include 'L24-webServer'
+
+
+include 'L25-di:class-demo'
+include 'L25-di:homework-template'
+
+include 'L26-springBootMvc'
+
+include 'L27-websocket:websocket'
+include 'L27-websocket:messager'
+include 'L27-websocket:messager-starter'
+include 'L27-websocket:application'
+
+include 'L28-springDataJdbc'
+include 'L29-threads'
+
+include 'L30-JMM'
