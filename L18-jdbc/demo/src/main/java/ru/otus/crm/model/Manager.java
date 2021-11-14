@@ -50,6 +50,7 @@ public class Manager {
         return "Manager{" +
                 "no=" + no +
                 ", label='" + label + '\'' +
+                ", param1='" + param1 + '\'' +
                 '}';
     }
 }

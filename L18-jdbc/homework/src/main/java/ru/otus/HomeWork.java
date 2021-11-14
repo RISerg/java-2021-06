@@ -49,9 +49,9 @@ public class HomeWork {
         var dataTemplateManager = new DataTemplateJdbc<Manager>(dbExecutor, entitySQLMetaDataManager, entityClassMetaDataManager);
 
         var dbServiceManager = new DbServiceManagerImpl(transactionRunner, dataTemplateManager);
-        dbServiceManager.saveManager(new Manager("ManagerFirst"));
+        dbServiceManager.saveManager(new Manager(null, "ManagerFirst", "1"));
 
-        var managerSecond = dbServiceManager.saveManager(new Manager("ManagerSecond"));
+        var managerSecond = dbServiceManager.saveManager(new Manager(null, "ManagerSecond", "2"));
         var managerSecondSelected = dbServiceManager.getManager(managerSecond.getNo())
                 .orElseThrow(() -> new RuntimeException("Manager not found, id:" + managerSecond.getNo()));
         log.info("managerSecondSelected:{}", managerSecondSelected);

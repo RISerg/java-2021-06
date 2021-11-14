@@ -6,37 +6,43 @@ import java.util.stream.Stream;
 
 public class EntitySQLMetaDataImpl<T> implements EntitySQLMetaData {
     private final EntityClassMetaData<T> classMetaData;
+    private final String selectAllSQL;
+    private final String selectByIdSql;
+    private final String insertSql;
+    private final String updateSql;
 
     public EntitySQLMetaDataImpl(EntityClassMetaData<T> classMetaData) {
         this.classMetaData = classMetaData;
+        this.selectAllSQL = "select %s from %s".formatted(getAllFieldsString(), classMetaData.getName());
+        this.selectByIdSql = selectAllSQL + "\nwhere %s = ?".formatted(classMetaData.getIdField().getName());
+        this.insertSql = "insert into %s (%s) \nvalues (%s)".formatted(
+                classMetaData.getName(),
+                getFieldsWithoutIdString(),
+                getFieldsWithoutIdParamString());
+        this.updateSql = "update %s \nset %s \nwhere %s = ?".formatted(
+                classMetaData.getName(),
+                getAllFieldsUpdateString(),
+                classMetaData.getIdField().getName());
     }
 
     @Override
     public String getSelectAllSql() {
-        return "select %s from %s".formatted(getAllFieldsString(), classMetaData.getName());
+        return selectAllSQL;
     }
 
     @Override
     public String getSelectByIdSql() {
-        return "%s \nwhere %s = ?".formatted(
-                getSelectAllSql(),
-                classMetaData.getIdField().getName());
+        return selectByIdSql;
     }
 
     @Override
     public String getInsertSql() {
-        return "insert into %s (%s) \nvalues (%s)".formatted(
-                classMetaData.getName(),
-                getFieldsWithoutIdString(),
-                getFieldsWithoutIdParamString());
+        return insertSql;
     }
 
     @Override
     public String getUpdateSql() {
-        return "update %s \nset %s \nwhere %s = ?".formatted(
-                classMetaData.getName(),
-                getAllFieldsUpdateString(),
-                classMetaData.getIdField().getName());
+        return updateSql;
     }
 
     private String getAllFieldsString() {
