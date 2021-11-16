@@ -33,7 +33,7 @@ public class DataTemplateJdbc<T> implements DataTemplate<T> {
                 connection,
                 entitySQLMetaData.getSelectByIdSql(),
                 List.of(id),
-                resultSet -> entityClassMetaData.makeObjectsFromRS(resultSet).get(0));
+                resultSet -> entityClassMetaData.makeObjectsFromRS(resultSet).stream().findFirst().orElse(null));
     }
 
     @Override
