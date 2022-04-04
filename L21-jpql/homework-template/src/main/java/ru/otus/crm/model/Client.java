@@ -1,15 +1,18 @@
 package ru.otus.crm.model;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "client")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Client implements Cloneable {
 
     @Id
@@ -20,45 +23,23 @@ public class Client implements Cloneable {
     @Column(name = "name")
     private String name;
 
-    public Client() {
-    }
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @JoinColumn(name = "phone_id")
+    private Phone phone;
 
-    public Client(String name) {
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @JoinColumn(name = "client_id", nullable = false, updatable = false)
+    private List<Address> addressList;
+
+    public Client(String name, Phone phone, List<Address>  addressList) {
         this.id = null;
         this.name = name;
-    }
-
-    public Client(Long id, String name) {
-        this.id = id;
-        this.name = name;
+        this.phone = phone;
+        this.addressList = addressList;
     }
 
     @Override
     public Client clone() {
-        return new Client(this.id, this.name);
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "Client{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+        return new Client(this.id, this.name, this.phone, this.addressList);
     }
 }
