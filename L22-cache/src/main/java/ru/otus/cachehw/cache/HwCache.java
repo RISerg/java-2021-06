@@ -1,4 +1,4 @@
-package ru.otus.cachehw;
+package ru.otus.cachehw.cache;
 
 
 public interface HwCache<K, V> {
