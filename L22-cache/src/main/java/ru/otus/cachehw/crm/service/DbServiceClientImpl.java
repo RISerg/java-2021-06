@@ -62,6 +62,11 @@ public class DbServiceClientImpl implements DBServiceClient {
         return transactionManager.doInTransaction(session -> {
             var clientList = clientDataTemplate.findAll(session);
             log.info("clientList:{}", clientList);
+
+            // кэшируем
+            cache.removeAll();
+            clientList.forEach(client -> cache.put(client.getId(), client));
+
             return clientList;
         });
     }
