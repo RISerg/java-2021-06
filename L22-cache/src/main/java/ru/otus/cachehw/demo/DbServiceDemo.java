@@ -1,18 +1,19 @@
-package ru.otus.demo;
+package ru.otus.cachehw.demo;
 
 import org.hibernate.cfg.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.core.repository.DataTemplateHibernate;
-import ru.otus.core.repository.HibernateUtils;
-import ru.otus.core.sessionmanager.TransactionManagerHibernate;
-import ru.otus.crm.dbmigrations.MigrationsExecutorFlyway;
-import ru.otus.crm.model.Address;
-import ru.otus.crm.model.Client;
-import ru.otus.crm.model.Phone;
-import ru.otus.crm.service.DbServiceClientImpl;
+import ru.otus.cachehw.cache.HwListener;
+import ru.otus.cachehw.cache.MyCache;
+import ru.otus.cachehw.core.repository.DataTemplateHibernate;
+import ru.otus.cachehw.core.repository.HibernateUtils;
+import ru.otus.cachehw.core.sessionmanager.TransactionManagerHibernate;
+import ru.otus.cachehw.crm.dbmigrations.MigrationsExecutorFlyway;
+import ru.otus.cachehw.crm.model.Address;
+import ru.otus.cachehw.crm.model.Client;
+import ru.otus.cachehw.crm.model.Phone;
+import ru.otus.cachehw.crm.service.DbServiceClientImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DbServiceDemo {
@@ -36,7 +37,17 @@ public class DbServiceDemo {
 ///
         var clientTemplate = new DataTemplateHibernate<>(Client.class);
 ///
-        var dbServiceClient = new DbServiceClientImpl(transactionManager, clientTemplate);
+        var cache = new MyCache<Long, Client>();
+        HwListener<Long, Client> listener = new HwListener<>() {
+            @Override
+            public void notify(Long key, Client value, String action) {
+                log.info("key:{}, value:{}, action: {}", key, value, action);
+            }
+        };
+
+        cache.addListener(listener);
+
+        var dbServiceClient = new DbServiceClientImpl(transactionManager, clientTemplate, cache);
         var phone = new Phone("123");
         var address = new Address("abc");
         dbServiceClient.saveClient(new Client("dbServiceFirst", phone, List.of(address)));
@@ -58,5 +69,7 @@ public class DbServiceDemo {
 
         log.info("All clients");
         dbServiceClient.findAll().forEach(client -> log.info("client:{}", client));
+
+        cache.removeListener(listener);
     }
 }

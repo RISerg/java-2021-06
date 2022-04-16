@@ -1,4 +1,4 @@
-package ru.otus.crm.model;
+package ru.otus.cachehw.crm.model;
 
 
 import lombok.AllArgsConstructor;

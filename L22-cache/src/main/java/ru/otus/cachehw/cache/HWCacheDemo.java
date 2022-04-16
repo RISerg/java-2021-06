@@ -1,4 +1,4 @@
-package ru.otus.cachehw;
+package ru.otus.cachehw.cache;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +26,7 @@ public class HWCacheDemo {
         cache.put("1", 1);
 
         logger.info("getValue:{}", cache.get("1"));
+
         cache.remove("1");
         cache.removeListener(listener);
     }
