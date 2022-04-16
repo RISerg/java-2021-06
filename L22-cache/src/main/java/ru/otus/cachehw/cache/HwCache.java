@@ -1,4 +1,4 @@
-package ru.otus.cachehw;
+package ru.otus.cachehw.cache;
 
 
 public interface HwCache<K, V> {
@@ -6,6 +6,8 @@ public interface HwCache<K, V> {
     void put(K key, V value);
 
     void remove(K key);
+
+    void removeAll();
 
     V get(K key);
 
