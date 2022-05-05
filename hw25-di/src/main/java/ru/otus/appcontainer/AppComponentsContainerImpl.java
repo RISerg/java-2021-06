@@ -15,25 +15,24 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
     private final List<Object> appComponents = new ArrayList<>();
     private final Map<String, Object> appComponentsByName = new HashMap<>();
 
-    public AppComponentsContainerImpl(Class<?> initialConfigClass) {
+    public AppComponentsContainerImpl(Class<?> initialConfigClass) throws InvocationTargetException, InstantiationException, NoSuchMethodException, IllegalAccessException {
         processConfig(initialConfigClass);
     }
 
-    private void processConfig(Class<?> configClass) {
+    private void processConfig(Class<?> configClass) throws InvocationTargetException, InstantiationException, NoSuchMethodException, IllegalAccessException {
         checkConfigClass(configClass);
-        try {
-            var configObj = configClass.getDeclaredConstructor().newInstance();
-            var methods = Arrays.stream(configClass.getDeclaredMethods())
-                    .filter(method -> method.isAnnotationPresent(AppComponent.class))
-                    .sorted(Comparator.comparingInt(m -> m.getDeclaredAnnotation(AppComponent.class).order())).toList();
-            for (var method : methods){
-                var params = Arrays.stream(method.getParameterTypes()).map(this::getAppComponent).toArray();
-                var obj = method.invoke(configObj, params);
-                appComponents.add(obj);
-                appComponentsByName.put(method.getDeclaredAnnotation(AppComponent.class).name(), obj);
-            }
-        } catch (InstantiationException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
+
+        var configObj = configClass.getDeclaredConstructor().newInstance();
+        var methods = Arrays.stream(configClass.getDeclaredMethods())
+                .filter(method -> method.isAnnotationPresent(AppComponent.class))
+                .sorted(Comparator.comparingInt(m -> m.getDeclaredAnnotation(AppComponent.class).order())).toList();
+        for (var method : methods) {
+            var params = Arrays.stream(method.getParameterTypes()).map(this::getAppComponent).toArray();
+            var obj = method.invoke(configObj, params);
+            var objName = method.getDeclaredAnnotation(AppComponent.class).name();
+            appComponents.remove(getAppComponent(objName));
+            appComponents.add(obj);
+            appComponentsByName.put(objName, obj);
         }
     }
 
