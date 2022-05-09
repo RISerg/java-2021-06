@@ -45,16 +45,17 @@ include 'hw16-io'
 include 'L17-nio-logging'
 
 include 'L18-jdbc:demo'
-include 'L18-jdbc:homework'
+include 'hw18-jdbc'
 
 include 'L19-rdbms'
 
 include 'L20-hibernate'
 
 include 'L21-jpql:class-demo'
-include 'L21-jpql:homework-template'
+include 'hw21-jpql'
 
 include 'L22-cache'
+include 'hw22-cache'
 
 include 'L23-noSQL:mongo-db-demo'
 include 'L23-noSQL:mongo-db-reactive-demo'
@@ -63,7 +64,7 @@ include 'L23-noSQL:redis-demo'
 include 'L23-noSQL:cassandra-demo'
 
 include 'L24-webServer'
-
+include 'hw24-webServer'
 include 'L25-di:class-demo'
 include 'L25-di:homework-template'
 include 'hw25-di'
