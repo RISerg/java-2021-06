@@ -28,7 +28,7 @@ public class UsersWebServerWithBasicSecurity extends UsersWebServerSimple {
                                            UserDao userDao,
                                            Gson gson,
                                            TemplateProcessor templateProcessor) {
-        super(port, userDao, gson, templateProcessor);
+        super(port, userDao, null, gson, templateProcessor);
         this.loginService = loginService;
     }
 
