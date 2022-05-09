@@ -12,7 +12,6 @@ import ru.otus.crm.model.Client;
 import ru.otus.crm.model.Phone;
 import ru.otus.crm.service.DbServiceClientImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DbServiceDemo {
