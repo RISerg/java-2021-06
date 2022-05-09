@@ -52,11 +52,15 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
 
     @Override
     public <C> C getAppComponent(Class<C> componentClass) {
-        return (C) appComponents.stream().filter(componentClass::isInstance).findFirst().orElse(null);
+        return (C) appComponents.stream()
+                .filter(componentClass::isInstance)
+                .findFirst()
+                .orElseThrow();
     }
 
     @Override
     public <C> C getAppComponent(String componentName) {
-        return (C) appComponentsByName.get(componentName);
+        var component = Optional.of((C) appComponentsByName.get(componentName));
+        return component.orElseThrow();
     }
 }
