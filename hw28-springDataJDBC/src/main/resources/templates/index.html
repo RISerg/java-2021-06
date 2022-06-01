@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Clients Manager Application</title>
+</head>
+<body>
+<div align="center">
+    <h1>Clients</h1>
+    <a href="/new">New Client</a>
+    <br/><br/>
+    <table border="1" cellpadding="10">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="client : ${listClient}">
+            <td th:text="${client.getId()}">ID</td>
+            <td th:text="${client.getName()}">Name</td>
+            <td th:text="${client.getPhone().getNumber()}">Phone</td>
+            <td>
+                <ul>
+                    <li th:each="address : ${client.getAddressList()}"><p th:text="${address.getStreet()}"></p></li>
+                </ul>
+            </td>
+            <!--            <td>-->
+            <!--                <a th:href="/@{'/edit/' + ${client.id}}">Edit</a>-->
+            <!--                &nbsp;&nbsp;&nbsp;-->
+            <!--                <a th:href="/@{'/delete/' + ${client.id}}">Delete</a>-->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
