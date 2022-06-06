@@ -1,83 +1,14 @@
 rootProject.name = 'otusJava'
-include 'L01-gradle'
 include 'hw01-gradle'
-
-include 'L02-gradle2'
-include 'L02-gradle2-libApi'
-include 'L02-gradle2-libApiUse'
-
-include 'L03-qa'
-
-include 'L04-generics'
 include 'hw04-generics'
-
-include 'L05-collections'
-
-include 'L06-reflection'
 include 'hw06-reflection'
-
-include 'L08-gc:demo'
-include 'L08-gc:homework'
 include 'hw08-gc:homework'
-
-include 'L09-remoteDebug'
-
-include 'L10-byteCodes'
 include 'hw10-byteCodes'
-
-include 'L11-Java8'
-
-include 'L12-solid'
 include 'hw12-solid'
-
-include 'L13-behavioralPatterns'
-
-include 'L14-creationalPatterns'
-
-include 'L15-structuralPatterns:demo'
-include 'L15-structuralPatterns:homework'
 include 'hw15-structuralPatterns'
-
-include 'L16-io:demo'
-include 'L16-io:homework'
 include 'hw16-io'
-
-include 'L17-nio-logging'
-
-include 'L18-jdbc:demo'
 include 'hw18-jdbc'
-
-include 'L19-rdbms'
-
-include 'L20-hibernate'
-
-include 'L21-jpql:class-demo'
 include 'hw21-jpql'
-
-include 'L22-cache'
 include 'hw22-cache'
-
-include 'L23-noSQL:mongo-db-demo'
-include 'L23-noSQL:mongo-db-reactive-demo'
-include 'L23-noSQL:neo4j-demo'
-include 'L23-noSQL:redis-demo'
-include 'L23-noSQL:cassandra-demo'
-
-include 'L24-webServer'
 include 'hw24-webServer'
-include 'L25-di:class-demo'
-include 'L25-di:homework-template'
 include 'hw25-di'
-
-//include 'L26-springBootMvc'
-
-//include 'L27-websocket:websocket'
-//include 'L27-websocket:messager'
-//include 'L27-websocket:messager-starter'
-//include 'L27-websocket:application'
-
-//include 'L28-springDataJdbc'
-
-//include 'L29-threads'
-
-//include 'L30-JMM'
