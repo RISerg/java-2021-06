@@ -5,64 +5,73 @@ import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
-import java.util.List;
+import java.util.Set;
 
 @Table("client")
-public class Client implements Cloneable {
+public class Client /*implements Cloneable*/ {
 
     @Id
     private Long id;
     private String name;
+    @MappedCollection(idColumn = "id")
     private Phone phone;
     @MappedCollection(idColumn = "client_id")
-    private List<Address> addressList;
-
-    public Client() {
-
-    }
+    private Set<Address> addresses;
 
     @PersistenceConstructor
-    public Client(Long id, String name, Phone phone, List<Address> addressList) {
+    public Client(Long id, String name, Phone phone, Set<Address> addresses) {
         this.id = id;
         this.name = name;
         this.phone = phone;
-        this.addressList = addressList;
+        this.addresses = addresses;
     }
 
-    @Override
-    public Client clone() {
-        return new Client(this.id, this.name, this.phone, this.addressList);
+    public Client() {
     }
 
     public Long getId() {
-        return id;
+        return this.id;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public Phone getPhone() {
+        return this.phone;
+    }
+
+    public Set<Address> getAddresses() {
+        return this.addresses;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Phone getPhone() {
-        return phone;
     }
 
     public void setPhone(Phone phone) {
         this.phone = phone;
     }
 
-    public List<Address> getAddressList() {
-        return addressList;
+    public void setAddresses(Set<Address> addresses) {
+        this.addresses = addresses;
     }
 
-    public void setAddressList(List<Address> addressList) {
-        this.addressList = addressList;
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phone=" + phone +
+                ", addresses=" + addresses +
+                '}';
     }
+//    @Override
+//    public Client clone() {
+//        return new Client(this.id, this.name, this.phone, this.addresses);
+//    }
 }

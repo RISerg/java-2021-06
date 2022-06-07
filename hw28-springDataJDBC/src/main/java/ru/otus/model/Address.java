@@ -5,7 +5,7 @@ import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Table("address")
-public class Address implements Cloneable {
+public class Address /*implements Cloneable*/ {
 
     @Id
     private Long id;
@@ -17,21 +17,24 @@ public class Address implements Cloneable {
         this.street = street;
     }
 
-    @Override
-    public Address clone() {
-        return new Address(this.id, this.street);
+    public Address(String street) {
+        this.id = null;
+        this.street = street;
+    }
+
+    public Address() {
     }
 
     public Long getId() {
-        return id;
+        return this.id;
+    }
+
+    public String getStreet() {
+        return this.street;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getStreet() {
-        return street;
     }
 
     public void setStreet(String street) {
@@ -41,4 +44,9 @@ public class Address implements Cloneable {
     public String toString() {
         return this.street;
     }
+
+//    @Override
+//    public Address clone() {
+//        return new Address(this.id, this.street);
+//    }
 }

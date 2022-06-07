@@ -24,10 +24,10 @@
         <tr th:each="client : ${listClient}">
             <td th:text="${client.getId()}">ID</td>
             <td th:text="${client.getName()}">Name</td>
-            <td th:text="${client.getPhone().getNumber()}">Phone</td>
+            <td th:text="${client.getPhone()}">Phone</td>
             <td>
                 <ul>
-                    <li th:each="address : ${client.getAddressList()}"><p th:text="${address.getStreet()}"></p></li>
+                    <li th:each="address : ${client.getAddresses()}"><p th:text="${address}"></p></li>
                 </ul>
             </td>
             <!--            <td>-->
