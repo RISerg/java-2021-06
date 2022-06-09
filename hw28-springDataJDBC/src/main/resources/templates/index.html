@@ -30,10 +30,10 @@
                     <li th:each="address : ${client.getAddresses()}"><p th:text="${address}"></p></li>
                 </ul>
             </td>
-            <!--            <td>-->
-            <!--                <a th:href="/@{'/edit/' + ${client.id}}">Edit</a>-->
-            <!--                &nbsp;&nbsp;&nbsp;-->
-            <!--                <a th:href="/@{'/delete/' + ${client.id}}">Delete</a>-->
+            <td>
+                <a th:href="${'/edit/' + client.id}">Edit</a>
+                &nbsp;&nbsp;&nbsp;
+                <a th:href="${'/delete/' + client.id}">Delete</a>
             </td>
         </tr>
         </tbody>

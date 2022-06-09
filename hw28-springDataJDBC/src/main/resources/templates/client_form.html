@@ -9,7 +9,9 @@
 <div align="center">
   <h1>Enter New Client</h1>
   <br />
-  <form action="#" th:action="@{/save}" th:object="${client}" method="post">
+  <form action="#" th:action="@{/save}" th:object="${client}" method="POST">
+    <input type="hidden" th:field="*{id}">
+    <input type="hidden" th:field="*{isNew}">
     <table border="0" cellpadding="10">
       <tr>
         <td>Name:</td>
