@@ -3,8 +3,11 @@ package ru.otus.server;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.*;
+import ru.otus.crm.service.DBService;
+import ru.otus.crm.service.DbServiceClientImpl;
 import ru.otus.dao.UserDao;
 import ru.otus.model.User;
+import ru.otus.model.client.Client;
 import ru.otus.services.TemplateProcessor;
 import ru.otus.services.UserAuthService;
 
@@ -44,13 +47,14 @@ class UsersWebServerImplTest {
         TemplateProcessor templateProcessor = mock(TemplateProcessor.class);
         UserDao userDao = mock(UserDao.class);
         UserAuthService userAuthService = mock(UserAuthService.class);
+        DBService<Client> dbServiceClient = mock(DbServiceClientImpl.class);
 
         given(userAuthService.authenticate(DEFAULT_USER_LOGIN, DEFAULT_USER_PASSWORD)).willReturn(true);
         given(userAuthService.authenticate(INCORRECT_USER_LOGIN, DEFAULT_USER_PASSWORD)).willReturn(false);
         given(userDao.findById(DEFAULT_USER_ID)).willReturn(Optional.of(DEFAULT_USER));
 
         gson = new GsonBuilder().serializeNulls().create();
-        webServer = new UsersWebServerWithFilterBasedSecurity(WEB_SERVER_PORT, userAuthService, userDao, gson, templateProcessor);
+        webServer = new UsersWebServerWithFilterBasedSecurity(WEB_SERVER_PORT, userAuthService, userDao, dbServiceClient, gson, templateProcessor);
         webServer.start();
     }
 
